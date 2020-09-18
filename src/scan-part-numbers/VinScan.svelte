@@ -1,5 +1,5 @@
 <script>
-	import { vehicles } from './data'
+	import { vehicles } from '../data'
 	import { createEventDispatcher } from 'svelte'
 	let dispatch = createEventDispatcher()
 	let eventName = 'vehicle'

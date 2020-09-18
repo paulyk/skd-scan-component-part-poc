@@ -1,5 +1,7 @@
 <script>
-  import ComponentScan from "./ComponentScan.svelte";
+  import VehicleInfo from "./components/VehicleInfo.svelte";
+
+  import ComponentScan from "./scan-part-numbers/ComponentScan.svelte";
 </script>
 
 <style>
@@ -12,12 +14,13 @@
   }
 
   .wrap {
-	  width: 800px;
-	  margin: 0 auto;
+    width: 800px;
+    margin: 0 auto;
   }
 </style>
 
 <h1>Component Scan Demo</h1>
 <div class="wrap">
+  <VehicleInfo />
   <ComponentScan />
 </div>
