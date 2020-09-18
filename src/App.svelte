@@ -17,10 +17,16 @@
     width: 800px;
     margin: 0 auto;
   }
+
+  .spacer {
+	height: 500px;
+  }
 </style>
 
 <h1>Component Scan Demo</h1>
 <div class="wrap">
   <VehicleInfo />
   <ComponentScan />
+
 </div>
+<div class="spacer"></div>

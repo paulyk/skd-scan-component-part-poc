@@ -1,54 +1,37 @@
 <script>
   export let vehicleComponent = {};
-  import { onMount } from "svelte";
+  import { debounce } from './util'
   import { createEventDispatcher } from "svelte";
-  import { fromEvent } from "rxjs";
-  import { map, debounceTime, scan } from "rxjs/operators";
-import { text } from "svelte/internal";
-
+  
   let dispatch = createEventDispatcher();
   let eventName = "part-numbers";
 
-  let part_no = null;
-  let state = {
-	  scan_1: null,
-	  scan_2: null
-  }
+  let scans = {
+    scan_1: null,
+    scan_2: null,
+  };
 
   let textInput = null;
-  let obs = null;
 
-  onMount(() => {
-    obs = fromEvent(textInput, "keyup").pipe(
-      debounceTime(500),
-      map((e) => e.target.value)
-    );
-  });
 
-  $: {
-	part_no = $obs;
-	if (textInput) {
-		set_scan_1_scan_2()
-		textInput.value = ""
-	}
-  }
-
-  function set_scan_1_scan_2() {
-	if (part_no === state.scan_1 || part_no === state.scan_2) {
-		console.log('already exists', part_no)
-	} else if (!state.scan_1) {
-		state = {...state, scan_1: part_no }
-	} else if (!state.scan_2) {
-		state = {...state, scan_2: part_no }
-	}
-	dispatch(eventName, state)
+  function set_scan_1_scan_2(e) {
+    let part_no = e.target.value
+    if (part_no === scans.scan_1 || part_no === scans.scan_2) {
+      console.log("already exists", part_no);
+    } else if (!scans.scan_1) {
+      scans = { ...scans, scan_1: part_no };
+    } else if (!scans.scan_2) {
+      scans = { ...scans, scan_2: part_no };
+    }
+    dispatch(eventName, scans);
+    textInput.value = "";
   }
 
   function reset() {
-	state.scan_1 = ""
-	state.scan_2 = ""
-	state = state
-    dispatch(eventName, state);
+    scans.scan_1 = "";
+    scans.scan_2 = "";
+    scans = scans;
+    dispatch(eventName, scans);
   }
 </script>
 
@@ -90,21 +73,22 @@ import { text } from "svelte/internal";
       {vehicleComponent.component.code} Part / Serial Number
     </div>
 
-	{#if !state.scan_1 || !state.scan_2}
-		<input type="text" bind:this={textInput} />
-	{/if}
- 
+    {#if !scans.scan_1 || !scans.scan_2}
+      <input type="text" bind:this={textInput} on:keyup={debounce(set_scan_1_scan_2, 500)}/>
+    {/if}
 
     <div class="detail">
-      {#if state.scan_1}
-        <div>scan 1: {state.scan_1}</div>
+      {#if scans.scan_1}
+        <div>scan 1: {scans.scan_1}</div>
       {/if}
-      {#if state.scan_2}
-        <div>scan 2: {state.scan_2}</div>
+      {#if scans.scan_2}
+        <div>scan 2: {scans.scan_2}</div>
       {/if}
     </div>
   </div>
   <div class="reset">
-    {#if state.scan_1 || state.scan_2}<button on:click={reset}> Reset </button>{/if}
+    {#if scans.scan_1 || scans.scan_2}
+      <button on:click={reset}> Reset </button>
+    {/if}
   </div>
 </div>
