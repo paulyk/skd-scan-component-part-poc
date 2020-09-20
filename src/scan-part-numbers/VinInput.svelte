@@ -9,20 +9,28 @@
   let state = {
     vin: "",
     vehicle: null,
-    error: null
+    error: null,
+  };
+
+  function handleInput() {
+    try {
+      state.vehicle = getVehicle(state.vin)
+      state.error = state.vehicle ? null : "vehicle not found";
+      dispatch(eventName, { data: state.vehicle, error: state.error });
+    } finally {
+      state.vin = null
+    }
   }
 
-  function getVehicle() {
-    state.vehicle = vehicles.find((v) => v.vin === state.vin);
-    state.error = state.vehicle ? null : 'vehicle not found'
-    dispatch(eventName, { data: state.vehicle, error: state.error });
+  function getVehicle(vin) {
+    return vehicles.find((v) => v.vin === state.vin);
   }
 
   function reset() {
     state.vehicle = null;
-    state.error = null
+    state.error = null;
     state.vin = null;
-    dispatch(eventName, { data: state.vehicle, error: state.error});
+    dispatch(eventName, { data: state.vehicle, error: state.error });
   }
 </script>
 
@@ -66,11 +74,17 @@
       <input
         type="text"
         bind:value={state.vin}
-        on:keyup={debounce(getVehicle, 500)} />
-    {:else}
+        on:keyup={debounce(handleInput, 500)} />
+    {/if}
+    {#if state.vehicle}
       <div class="detail">
         <div>{state.vehicle.vin}</div>
         <div>{state.vehicle.model.name}</div>
+      </div>
+    {/if}
+    {#if state.error}
+      <div class="detail">
+        <div>{state.error}</div>
       </div>
     {/if}
   </div>
