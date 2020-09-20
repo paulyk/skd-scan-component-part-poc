@@ -6,26 +6,37 @@
   let state = {
     vehicle_state: {
       data: null,
-      error: null
+      error: null,
     },
-    vehicleComponent: null,
+    vehicle_component_state: { 
+      data: null, 
+      error: null 
+    },
     scan_1: null,
     scan_2: null,
   };
 
   function vehicleSelected(e) {
-    state = { ...state, vehicle_state: { 
-      data: e.detail.data, 
-      error: e.detail.error 
-    }};
+    state = {
+      ...state,
+      vehicle_state: {
+        data: e.detail.data,
+        error: e.detail.error,
+      },
+    };
     if (!state.vehicle_state.data) {
-      state.vehicleComponent = null;
+      state.vehicle_component_state = { data: null, error: null }
     }
   }
 
   function vehicleComponentSelected(e) {
-    state = { ...state, vehicleComponent: e.detail };
-    if (!state.vehicleComponent) {
+    state = { ...state, 
+      vehicle_component_state:  {
+        data: e.detail.data,
+        error: e.detail.error,
+      },
+    };
+    if (!state.vehicle_component_state.data) {
       state.scan_1 = null;
       state.scan_2 = null;
     }
@@ -50,9 +61,9 @@
     <VehicleComponentInput
       vehicle={state.vehicle_state.data}
       on:vehicle-component={vehicleComponentSelected} />
-    {#if state.vehicleComponent}
+    {#if state.vehicle_component_state.data}
       <PartNumberInput
-        vehicleComponent={state.vehicleComponent}
+        vehicleComponent={state.vehicle_component_state.data}
         on:part-numbers={partNumbersScanned} />
     {/if}
   {/if}

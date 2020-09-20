@@ -16,7 +16,7 @@
     vehicleComponent = vehicle.vehicleComponents.find(
       (vc) => vc.component.code.toLowerCase() === componentCode.toLowerCase()
     );
-    dispatch(eventName, vehicleComponent);
+    dispatch(eventName, { data: vehicleComponent, error: null});
   }
 
   function reset() {

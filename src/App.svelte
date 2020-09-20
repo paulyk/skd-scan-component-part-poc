@@ -26,7 +26,7 @@
   }
 </style>
 
-<h1>Component Scan Demo</h1>
+<h1>Component Scan Demo {new Date().getMinutes()  }</h1>
 <div class="wrap">
   <VehicleInfo />
   <ComponentScan />
