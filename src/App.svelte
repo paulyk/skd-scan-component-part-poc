@@ -1,9 +1,8 @@
 <script lang="ts">
-  import VehicleList from "./components/dashboard/VehicleList.svelte";
   import VehicleInfo from "./components/VehicleInfo.svelte";
   import ComponentScan from "./scan-part-numbers/ComponentScan.svelte";
-  import { createClient } from "./skd-data";
 
+  import { createClient } from "./skd-data";
   let url = "http://localhost:5100/gql/";
   createClient(url);
 </script>
@@ -29,6 +28,7 @@
 
 <h1>Component Scan Demo</h1>
 <div class="wrap">
-  <VehicleList />
+  <VehicleInfo />
+  <ComponentScan />
 </div>
 <div class="spacer" />
