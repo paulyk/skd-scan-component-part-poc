@@ -1,7 +1,7 @@
-<script>
-  import VinScan from "./VinScan.svelte";
-  import VehicleComponentScan from "./VehicleComponentScan.svelte";
-  import PartNumberScan from "./PartNumberScan.svelte";
+<script lang="ts">
+  import VinInput from "./VinInput.svelte";
+  import VehicleComponentInput from "./VehicleComponentInput.svelte";
+  import PartNumberInput from "./PartNumberInput.svelte";
 
   let state = {
     vehicle: null,
@@ -39,13 +39,13 @@
 </style>
 
 <div class="grid">
-  <VinScan on:vehicle={vehicleSelected} />
+  <VinInput on:vehicle={vehicleSelected} />
   {#if state.vehicle}
-    <VehicleComponentScan
+    <VehicleComponentInput
       vehicle={state.vehicle}
       on:vehicle-component={vehicleComponentSelected} />
     {#if state.vehicleComponent}
-      <PartNumberScan
+      <PartNumberInput
         vehicleComponent={state.vehicleComponent}
         on:part-numbers={partNumbersScanned} />
     {/if}
