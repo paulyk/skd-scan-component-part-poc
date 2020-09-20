@@ -8,15 +8,16 @@
 
   let state = {
     vin: "",
-    vehicle: null,
+    data: null,
     error: null,
   };
 
   function handleInput() {
     try {
-      state.vehicle = getVehicle(state.vin)
-      state.error = state.vehicle ? null : "vehicle not found";
-      dispatch(eventName, { data: state.vehicle, error: state.error });
+      state.data = getVehicle(state.vin)
+      state.error = state.data ? null : "vehicle not found";
+      console.log('dispatch ', state)
+      dispatch(eventName, state );
     } finally {
       state.vin = null
     }
@@ -27,10 +28,10 @@
   }
 
   function reset() {
-    state.vehicle = null;
+    state.data = null;
     state.error = null;
     state.vin = null;
-    dispatch(eventName, { data: state.vehicle, error: state.error });
+    dispatch(eventName, state );
   }
 </script>
 
@@ -70,16 +71,16 @@
   <div class="form">
     <div class="title">VIN</div>
 
-    {#if !state.vehicle}
+    {#if !state.data}
       <input
         type="text"
         bind:value={state.vin}
         on:keyup={debounce(handleInput, 500)} />
     {/if}
-    {#if state.vehicle}
+    {#if state.data}
       <div class="detail">
-        <div>{state.vehicle.vin}</div>
-        <div>{state.vehicle.model.name}</div>
+        <div>{state.data.vin}</div>
+        <div>{state.data.model.name}</div>
       </div>
     {/if}
     {#if state.error}
@@ -89,6 +90,6 @@
     {/if}
   </div>
   <div class="reset">
-    {#if state.vehicle}<button on:click={reset}> Reset </button>{/if}
+    {#if state.data}<button on:click={reset}> Reset </button>{/if}
   </div>
 </div>

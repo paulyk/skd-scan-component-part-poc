@@ -19,7 +19,8 @@
     try {
     state.data = getComponent(state.componentCode)
     state.error = state.data ? null : "Component not found"
-    dispatch(eventName, { data: state.data, error: state.error});
+    console.log('display state for vc', state)
+    dispatch(eventName, state);
     } finally {
       state.componentCode = null
     }
