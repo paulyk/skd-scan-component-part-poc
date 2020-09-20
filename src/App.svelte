@@ -1,9 +1,12 @@
 <script lang="ts">
+import { loop_guard } from "svelte/internal";
+
   import VehicleInfo from "./components/VehicleInfo.svelte";
   import ComponentScan from "./scan-part-numbers/ComponentScan.svelte";
 
-  import { createClient } from "./skd-data";
-  let url = "http://localhost:5100/gql/";
+  import { createClient } from "./services/dataService"
+  let url = window["skdGraphqlURI"]
+  console.log('server url: ', url)
   createClient(url);
 
   

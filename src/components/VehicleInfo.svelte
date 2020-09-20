@@ -1,7 +1,7 @@
 <script lang="ts">
   import Accordion from "./Accordion.svelte";
-  import { QueryService } from "../data/index";
-  import { getClient } from "../skd-data";
+  import { QueryService } from "../services/queryService";
+  import { getClient } from "../services/dataService";
   import type { ApolloQueryResult } from "apollo-boost";
   import type { VehiclesQuery } from "../generated/graphql";
 
@@ -29,9 +29,10 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
   }
-  .list {
+  .vin-list {
     display: grid;
-    grid-gap: 0.1rem;
+    grid-gap: 0.8rem;
+    grid-template-columns: 1fr 1fr;
   }
   .item {
     padding: 0.3rem 1rem;
@@ -53,7 +54,7 @@
   <div slot="header">VIN & Component Codes</div>
   <div slot="body">
     <div class="cols">
-      <div class="list">
+      <div class="vin-list">
         {#each vehiclesQueryResult.data.vehicles.nodes as vehicle}
           <div class="item">{vehicle.vin}</div>
         {/each}
