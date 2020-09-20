@@ -5,6 +5,8 @@
   import { createClient } from "./skd-data";
   let url = "http://localhost:5100/gql/";
   createClient(url);
+
+  
 </script>
 
 <style>

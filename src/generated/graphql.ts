@@ -1076,10 +1076,10 @@ export type Error = {
   path?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-export type GetVehiclesQueryVariables = Exact<{ [key: string]: never; }>;
+export type VehiclesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetVehiclesQuery = (
+export type VehiclesQuery = (
   { __typename?: 'Query' }
   & { vehicles?: Maybe<(
     { __typename?: 'VehicleConnection' }
@@ -1088,8 +1088,39 @@ export type GetVehiclesQuery = (
       & Pick<Vehicle, 'vin'>
       & { model?: Maybe<(
         { __typename?: 'VehicleModel' }
-        & Pick<VehicleModel, 'name'>
-      )> }
+        & Pick<VehicleModel, 'code' | 'name'>
+      )>, vehicleComponents?: Maybe<Array<Maybe<(
+        { __typename?: 'VehicleComponent' }
+        & Pick<VehicleComponent, 'id'>
+        & { component?: Maybe<(
+          { __typename?: 'Component' }
+          & Pick<Component, 'code' | 'name'>
+        )> }
+      )>>> }
     )>>> }
   )> }
+);
+
+export type VehicleByVinQueryVariables = Exact<{
+  vin: Scalars['String'];
+}>;
+
+
+export type VehicleByVinQuery = (
+  { __typename?: 'Query' }
+  & { vehicleByVIN: (
+    { __typename?: 'Vehicle' }
+    & Pick<Vehicle, 'id' | 'vin' | 'createdAt' | 'removedAt' | 'plannedBuildAt'>
+    & { model?: Maybe<(
+      { __typename?: 'VehicleModel' }
+      & Pick<VehicleModel, 'code' | 'name'>
+    )>, vehicleComponents?: Maybe<Array<Maybe<(
+      { __typename?: 'VehicleComponent' }
+      & Pick<VehicleComponent, 'id'>
+      & { component?: Maybe<(
+        { __typename?: 'Component' }
+        & Pick<Component, 'code' | 'name'>
+      )> }
+    )>>> }
+  ) }
 );

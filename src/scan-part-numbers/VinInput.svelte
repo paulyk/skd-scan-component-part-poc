@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getGetVehicleByVIN } from "../data"
+  import { getGetVehicleByVIN } from "../data/index-old"
   import { createEventDispatcher } from "svelte";
   import { debounce } from "../util";
 

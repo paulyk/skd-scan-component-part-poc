@@ -1,17 +1,25 @@
 <script lang="ts">
   import Accordion from "./Accordion.svelte";
-  import { getVehicles } from "../data";
-  import type { Component, Vehicle } from "../interface";
+  import { QueryService } from "../data/index";
+  import { getClient } from "../skd-data";
+  import type { ApolloQueryResult } from "apollo-boost";
+  import type { VehiclesQuery } from "../generated/graphql";
 
-  let vehicles: Vehicle[] = [];
+  console.log('vehicle info part two')
+
+  let queryService = new QueryService(getClient());
+
+  let vehiclesQueryResult: ApolloQueryResult<VehiclesQuery>;
   let components: String[] = [];
 
   //
   load();
 
   async function load() {
-    vehicles = await getVehicles();
-    components = vehicles[0].vehicleComponents.map((vc) => vc.component.code);
+    console.log('loading.....')
+    vehiclesQueryResult = await queryService.getVehicles();
+    let firstVehilce = vehiclesQueryResult.data.vehicles.nodes[0]
+    components = firstVehilce.vehicleComponents.map((vc) => vc.component.code);
   }
 </script>
 
@@ -46,7 +54,7 @@
   <div slot="body">
     <div class="cols">
       <div class="list">
-        {#each vehicles as vehicle}
+        {#each vehiclesQueryResult.data.vehicles.nodes as vehicle}
           <div class="item">{vehicle.vin}</div>
         {/each}
       </div>

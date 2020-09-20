@@ -1,3 +1,5 @@
+import type { Vehicle } from '../interface'
+
 export let vehicles: Array<Vehicle> = [
     {
       vin: "MNCUMNF50JW795262",
