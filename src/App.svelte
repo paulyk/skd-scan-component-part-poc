@@ -1,15 +1,11 @@
 <script lang="ts">
-import { loop_guard } from "svelte/internal";
-
   import VehicleInfo from "./components/VehicleInfo.svelte";
   import ComponentScan from "./scan-part-numbers/ComponentScan.svelte";
+  import { setupDataService } from "./services/dataService"
 
-  import { createClient } from "./services/dataService"
   let url = window["skdGraphqlURI"]
-  console.log('server url: ', url)
-  createClient(url);
+  setupDataService(url);
 
-  
 </script>
 
 <style>

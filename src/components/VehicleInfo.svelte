@@ -1,24 +1,22 @@
 <script lang="ts">
   import Accordion from "./Accordion.svelte";
-  import { QueryService } from "../services/queryService";
-  import { getClient } from "../services/dataService";
   import type { ApolloQueryResult } from "apollo-boost";
   import type { VehiclesQuery } from "../generated/graphql";
+  import { getQueryService } from "../services/dataService";
 
-  console.log('vehicle info part two')
-
-  let queryService = new QueryService(getClient());
+  console.log("vehicle info part two");
 
   let vehiclesQueryResult: ApolloQueryResult<VehiclesQuery>;
   let components: String[] = [];
 
+  let queryService = getQueryService();
   //
   load();
 
   async function load() {
-    console.log('loading.....')
+    console.log("loading.....");
     vehiclesQueryResult = await queryService.getVehicles();
-    let firstVehilce = vehiclesQueryResult.data.vehicles.nodes[0]
+    let firstVehilce = vehiclesQueryResult.data.vehicles.nodes[0];
     components = firstVehilce.vehicleComponents.map((vc) => vc.component.code);
   }
 </script>
