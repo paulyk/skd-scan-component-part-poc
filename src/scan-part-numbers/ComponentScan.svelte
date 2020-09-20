@@ -4,15 +4,21 @@
   import PartNumberInput from "./PartNumberInput.svelte";
 
   let state = {
-    vehicle: null,
+    vehicle_state: {
+      data: null,
+      error: null
+    },
     vehicleComponent: null,
     scan_1: null,
     scan_2: null,
   };
 
   function vehicleSelected(e) {
-    state = { ...state, vehicle: e.detail };
-    if (!state.vehicle) {
+    state = { ...state, vehicle_state: { 
+      data: e.detail.data, 
+      error: e.detail.error 
+    }};
+    if (!state.vehicle_state.data) {
       state.vehicleComponent = null;
     }
   }
@@ -40,9 +46,9 @@
 
 <div class="grid">
   <VinInput on:vehicle={vehicleSelected} />
-  {#if state.vehicle}
+  {#if state.vehicle_state.data}
     <VehicleComponentInput
-      vehicle={state.vehicle}
+      vehicle={state.vehicle_state.data}
       on:vehicle-component={vehicleComponentSelected} />
     {#if state.vehicleComponent}
       <PartNumberInput

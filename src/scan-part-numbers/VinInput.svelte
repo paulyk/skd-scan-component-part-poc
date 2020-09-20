@@ -5,20 +5,25 @@
 
   let dispatch = createEventDispatcher();
   let eventName = "vehicle";
-  let vin = "";
-  let vehicle = null;
+
+  let state = {
+    vin: "",
+    vehicle: null
+  }
 
   function getVehicle() {
-    vehicle = vehicles.find((v) => v.vin === vin);
-    if (vehicle) {
-      dispatch(eventName, vehicle);
+    state.vehicle = vehicles.find((v) => v.vin === state.vin);
+    if (state.vehicle) {
+      dispatch(eventName, { data: state.vehicle, error: null });
+    } else {
+      dispatch(eventName, { data: null, error: 'Not found or not a VIN'})
     }
   }
 
   function reset() {
-    vehicle = null;
-    vin = null;
-    dispatch(eventName, null);
+    state.vehicle = null;
+    state.vin = null;
+    dispatch(eventName, { data: null, error: null});
   }
 </script>
 
@@ -58,19 +63,19 @@
   <div class="form">
     <div class="title">VIN</div>
 
-    {#if !vehicle}
+    {#if !state.vehicle}
       <input
         type="text"
-        bind:value={vin}
+        bind:value={state.vin}
         on:keyup={debounce(getVehicle, 500)} />
     {:else}
       <div class="detail">
-        <div>{vehicle.vin}</div>
-        <div>{vehicle.model.name}</div>
+        <div>{state.vehicle.vin}</div>
+        <div>{state.vehicle.model.name}</div>
       </div>
     {/if}
   </div>
   <div class="reset">
-    {#if vehicle}<button on:click={reset}> Reset </button>{/if}
+    {#if state.vehicle}<button on:click={reset}> Reset </button>{/if}
   </div>
 </div>
