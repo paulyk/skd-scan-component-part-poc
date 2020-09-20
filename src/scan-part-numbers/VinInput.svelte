@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { vehicles } from "../data";
+  import { getGetVehicleByVIN } from "../data"
   import { createEventDispatcher } from "svelte";
-  import { debounce } from "./util";
+  import { debounce } from "../util";
 
   let dispatch = createEventDispatcher();
   let eventName = "vehicle";
@@ -12,20 +12,22 @@
     error: null,
   };
 
-  function handleInput() {
+  async function handleInput() {
     try {
-      state.data = getVehicle(state.vin)
+      state.data = await getGetVehicleByVIN(state.vin)
       state.error = state.data ? null : "vehicle not found";
       console.log('dispatch ', state)
+      dispatch(eventName, state );
+    } catch(err) {
+      state.data = null 
+      state.error = err.message   
       dispatch(eventName, state );
     } finally {
       state.vin = null
     }
   }
 
-  function getVehicle(vin) {
-    return vehicles.find((v) => v.vin === state.vin);
-  }
+  
 
   function reset() {
     state.data = null;

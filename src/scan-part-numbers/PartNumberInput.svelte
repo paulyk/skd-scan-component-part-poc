@@ -1,6 +1,6 @@
 <script lang="ts">
   export let vehicleComponent: VehicleComponent = null
-  import { debounce } from "./util";
+  import { debounce } from "../util";
   import { createEventDispatcher } from "svelte";
 import type { VehicleComponent } from "../generated/graphql";
 

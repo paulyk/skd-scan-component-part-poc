@@ -24,4 +24,6 @@ export const debounce = (func, wait) => {
       // setTimeout returns a truthy value (it differs in web vs Node)
       timeout = setTimeout(later, wait);
     };
-  };
+};
+
+export const delay = (ms = 1000) => new Promise(res => setTimeout(res, ms))

@@ -2,7 +2,7 @@
   import type { Vehicle } from "../generated/graphql";
 
   export let vehicle: Vehicle = null
-  import { debounce } from "./util";
+  import { debounce } from "../util";
   import { createEventDispatcher } from "svelte";
 
   let dispatch = createEventDispatcher();

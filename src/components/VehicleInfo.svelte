@@ -1,17 +1,26 @@
-<script>
+<script lang="ts">
   import Accordion from "./Accordion.svelte";
-  import { vehicles } from "../data";
+  import { getVehicles } from "../data";
+  import type { Component, Vehicle } from "../interface";
 
-  let components = vehicles[0].vehicleComponents.map(vc => vc.component.code)
+  let vehicles: Vehicle[] = [];
+  let components: String[] = [];
+
+  //
+  load();
+
+  async function load() {
+    vehicles = await getVehicles();
+    components = vehicles[0].vehicleComponents.map((vc) => vc.component.code);
+  }
 </script>
 
 <style>
-
-    .cols {
-        padding: 0.5rem 1rem;
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-    }
+  .cols {
+    padding: 0.5rem 1rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
   .list {
     display: grid;
     grid-gap: 0.1rem;
@@ -21,14 +30,14 @@
   }
 
   .code {
-      padding: 0.2rem 0.3rem;
-      border: 1px solid #999;
-      border-radius: 4px;
+    padding: 0.2rem 0.3rem;
+    border: 1px solid #999;
+    border-radius: 4px;
   }
-  
+
   .flex {
-      display: flex;
-      flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
   }
 </style>
 
@@ -43,9 +52,7 @@
       </div>
       <div class="components">
         <div class="flex">
-            {#each components as code }
-                <span class="code">{code}</span>
-            {/each}
+          {#each components as code}<span class="code">{code}</span>{/each}
         </div>
       </div>
     </div>
