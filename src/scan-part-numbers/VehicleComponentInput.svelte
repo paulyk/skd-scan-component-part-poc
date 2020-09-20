@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Vehicle } from "../generated/graphql";
 
-
   export let vehicle: Vehicle = null
   import { debounce } from "./util";
   import { createEventDispatcher } from "svelte";
@@ -11,16 +10,16 @@
 
   let state = {
     componentCode: "",
-    vehicleComponent: null,
+    data: null,
     error: null,
   };
 
 
   function handleInput() {
     try {
-    state.vehicleComponent = getComponent(state.componentCode)
-    state.error = state.vehicleComponent ? null : "Component not found"
-    dispatch(eventName, { data: state.vehicleComponent, error: state.error});
+    state.data = getComponent(state.componentCode)
+    state.error = state.data ? null : "Component not found"
+    dispatch(eventName, { data: state.data, error: state.error});
     } finally {
       state.componentCode = null
     }
@@ -34,7 +33,7 @@
 
   function reset() {
     state.componentCode = null;
-    state.vehicleComponent = null;
+    state.data = null;
     state.error = null
     dispatch(eventName, state);
   }
@@ -76,16 +75,16 @@
   <div class="form">
     <div class="title">Vehicle Component</div>
 
-    {#if !state.vehicleComponent}
+    {#if !state.data}
       <input
         type="text"
         bind:value={state.componentCode}
         on:keyup={debounce(handleInput, 500)} />
     {/if}
-    {#if state.vehicleComponent}
+    {#if state.data}
       <div class="detail">
-        <div>{state.vehicleComponent.component.code}</div>
-        <div>{state.vehicleComponent.component.name}</div>
+        <div>{state.data.component.code}</div>
+        <div>{state.data.component.name}</div>
       </div>
     {/if}
     {#if state.error}
@@ -95,6 +94,6 @@
   {/if}
   </div>
   <div class="reset">
-    {#if state.vehicleComponent}<button on:click={reset}> Reset </button>{/if}
+    {#if state.data}<button on:click={reset}> Reset </button>{/if}
   </div>
 </div>
