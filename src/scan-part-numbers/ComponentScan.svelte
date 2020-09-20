@@ -12,8 +12,10 @@
       data: null, 
       error: null 
     },
-    scan_1: null,
-    scan_2: null,
+    part_numbers_state: {
+      data: null,
+      error: null
+    }
   };
 
   function vehicleSelected(e) {
@@ -24,6 +26,8 @@
         error: e.detail.error,
       },
     };
+
+    // clear  vehicle_component_state if no vehicle
     if (!state.vehicle_state.data) {
       state.vehicle_component_state = { data: null, error: null }
     }
@@ -36,15 +40,21 @@
         error: e.detail.error,
       },
     };
+
+    // clear part_numbers_state if no vehicle_component
     if (!state.vehicle_component_state.data) {
-      state.scan_1 = null;
-      state.scan_2 = null;
+      state.part_numbers_state.data = null;
+      state.part_numbers_state.error = null;
     }
   }
 
-  function partNumbersScanned(e) {
-    let { scan_1, scan_2 } = e.detail;
-    state = { ...state, scan_1, scan_2 };
+  function partNumbersSelected(e) {
+    state = { ...state, 
+      part_numbers_state:  {
+        data: e.detail.data,
+        error: e.detail.error,
+      },
+    };
   }
 </script>
 
@@ -64,7 +74,7 @@
     {#if state.vehicle_component_state.data}
       <PartNumberInput
         vehicleComponent={state.vehicle_component_state.data}
-        on:part-numbers={partNumbersScanned} />
+        on:part-numbers={partNumbersSelected} />
     {/if}
   {/if}
 </div>

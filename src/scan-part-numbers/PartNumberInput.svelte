@@ -1,37 +1,61 @@
-<script>
-  export let vehicleComponent = {};
-  import { debounce } from './util'
+<script lang="ts">
+  export let vehicleComponent: VehicleComponent = null
+  import { debounce } from "./util";
   import { createEventDispatcher } from "svelte";
-  
+import type { VehicleComponent } from "../generated/graphql";
+
   let dispatch = createEventDispatcher();
   let eventName = "part-numbers";
 
-  let scans = {
-    scan_1: null,
-    scan_2: null,
+  interface Data {
+    scan_1: string;
+    scan_2: string;
+  }
+
+  interface State {
+    data: Data;
+    error: string;
+  }
+
+  let state = {
+    data: {
+      scan_1: null,
+      scan_2: null,
+    },
+    error: null,
   };
 
   let textInput = null;
 
+  function handleInput(e) {
+    try {
+      let part_no: string= e.target.value;
 
-  function set_scan_1_scan_2(e) {
-    let part_no = e.target.value
-    if (part_no === scans.scan_1 || part_no === scans.scan_2) {
-      console.log("already exists", part_no);
-    } else if (!scans.scan_1) {
-      scans = { ...scans, scan_1: part_no };
-    } else if (!scans.scan_2) {
-      scans = { ...scans, scan_2: part_no };
+      if (!part_no || part_no.length < 10) {
+        console.log("part no less thtn 10 characters", part_no);
+        return
+      }
+
+      if (part_no === state.data.scan_1 || part_no === state.data.scan_2) {
+        console.log("already exists", part_no);
+        return
+      } else if (!state.data.scan_1) {
+        state.data.scan_1 = part_no;
+      } else if (!state.data.scan_2) {
+        state.data.scan_2 = part_no;
+      }
+      dispatch(eventName, state);
+    } finally {
+      textInput.value = "";
     }
-    dispatch(eventName, scans);
-    textInput.value = "";
   }
 
   function reset() {
-    scans.scan_1 = "";
-    scans.scan_2 = "";
-    scans = scans;
-    dispatch(eventName, scans);
+    state.data.scan_1 = "";
+    state.data.scan_2 = "";
+    state.error = null
+    state = state;
+    dispatch(eventName, state);
   }
 </script>
 
@@ -73,21 +97,24 @@
       {vehicleComponent.component.code} Part / Serial Number
     </div>
 
-    {#if !scans.scan_1 || !scans.scan_2}
-      <input type="text" bind:this={textInput} on:keyup={debounce(set_scan_1_scan_2, 500)}/>
+    {#if !state.data.scan_1 || !state.data.scan_2}
+      <input
+        type="text"
+        bind:this={textInput}
+        on:keyup={debounce(handleInput, 500)} />
     {/if}
 
     <div class="detail">
-      {#if scans.scan_1}
-        <div>scan 1: {scans.scan_1}</div>
+      {#if state.data.scan_1}
+        <div>scan 1: {state.data.scan_1}</div>
       {/if}
-      {#if scans.scan_2}
-        <div>scan 2: {scans.scan_2}</div>
+      {#if state.data.scan_2}
+        <div>scan 2: {state.data.scan_2}</div>
       {/if}
     </div>
   </div>
   <div class="reset">
-    {#if scans.scan_1 || scans.scan_2}
+    {#if state.data.scan_1 || state.data.scan_2}
       <button on:click={reset}> Reset </button>
     {/if}
   </div>
