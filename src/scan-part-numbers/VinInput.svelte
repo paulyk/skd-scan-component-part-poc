@@ -1,12 +1,25 @@
 <script lang="ts">
-  import { getGetVehicleByVIN } from "../data/index-old"
+  import type { ApolloQueryResult } from "apollo-boost";
+
   import { createEventDispatcher } from "svelte";
+  import type { VehicleByVinQuery } from "../generated/graphql";
+  import { getQueryService } from "../services/dataService";
   import { debounce } from "../util";
+
+  let queryService = getQueryService();
 
   let dispatch = createEventDispatcher();
   let eventName = "vehicle";
 
-  let state = {
+  let temp: ApolloQueryResult<VehicleByVinQuery>;
+  
+  interface State {
+    vin: string
+    data: typeof temp.data.vehicleByVIN 
+    error: string
+  }
+
+  let state: State = {
     vin: "",
     data: null,
     error: null,
@@ -14,26 +27,26 @@
 
   async function handleInput() {
     try {
-      state.data = await getGetVehicleByVIN(state.vin)
+      let result = await queryService.getGetVehicleByVIN(state.vin);
+      console.log("result: ** ", result.data)
+      state.data = result.data.vehicleByVIN;
       state.error = state.data ? null : "vehicle not found";
-      console.log('dispatch ', state)
-      dispatch(eventName, state );
-    } catch(err) {
-      state.data = null 
-      state.error = err.message   
-      dispatch(eventName, state );
+      console.log("dispatch ", state);
+      dispatch(eventName, state);
+    } catch (err) {
+      state.data = null;
+      state.error = err.message;
+      dispatch(eventName, state);
     } finally {
-      state.vin = null
+      state.vin = null;
     }
   }
-
-  
 
   function reset() {
     state.data = null;
     state.error = null;
     state.vin = null;
-    dispatch(eventName, state );
+    dispatch(eventName, state);
   }
 </script>
 
