@@ -8,22 +8,21 @@
 
   let state = {
     vin: "",
-    vehicle: null
+    vehicle: null,
+    error: null
   }
 
   function getVehicle() {
     state.vehicle = vehicles.find((v) => v.vin === state.vin);
-    if (state.vehicle) {
-      dispatch(eventName, { data: state.vehicle, error: null });
-    } else {
-      dispatch(eventName, { data: null, error: 'Not found or not a VIN'})
-    }
+    state.error = state.vehicle ? null : 'vehicle not found'
+    dispatch(eventName, { data: state.vehicle, error: state.error });
   }
 
   function reset() {
     state.vehicle = null;
+    state.error = null
     state.vin = null;
-    dispatch(eventName, { data: null, error: null});
+    dispatch(eventName, { data: state.vehicle, error: state.error});
   }
 </script>
 
