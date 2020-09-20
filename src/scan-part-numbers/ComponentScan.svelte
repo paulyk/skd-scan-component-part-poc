@@ -11,18 +11,18 @@
   };
 
   function vehicleSelected(e) {
-	state = { ...state, vehicle: e.detail };
-	if (!state.vehicle) {
-		state.vehicleComponent = null
-	}
+    state = { ...state, vehicle: e.detail };
+    if (!state.vehicle) {
+      state.vehicleComponent = null;
+    }
   }
 
   function vehicleComponentSelected(e) {
-	state = { ...state, vehicleComponent: e.detail };
-	if (!state.vehicleComponent) {
-		state.scan_1 = null
-		state.scan_2 = null
-	}
+    state = { ...state, vehicleComponent: e.detail };
+    if (!state.vehicleComponent) {
+      state.scan_1 = null;
+      state.scan_2 = null;
+    }
   }
 
   function partNumbersScanned(e) {

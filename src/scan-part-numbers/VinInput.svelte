@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { vehicles } from "../data";
   import { createEventDispatcher } from "svelte";
   import { debounce } from "./util";
