@@ -1,5 +1,8 @@
-<script>
-  export let vehicle = {};
+<script lang="ts">
+  import type { Vehicle } from "../generated/graphql";
+
+
+  export let vehicle: Vehicle = null
   import { debounce } from "./util";
   import { createEventDispatcher } from "svelte";
 
