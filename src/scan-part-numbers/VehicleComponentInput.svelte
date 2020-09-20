@@ -6,23 +6,34 @@
   let dispatch = createEventDispatcher();
   let eventName = "vehicle-component";
 
-  let componentCode = "";
-  let vehicleComponent = null;
+  let state = {
+    componentCode: "",
+    vehicleComponent: null,
+    error: null,
+  };
 
-  $: {
+
+  function handleInput() {
+    try {
+    state.vehicleComponent = getComponent(state.componentCode)
+    state.error = state.vehicleComponent ? null : "Component not found"
+    dispatch(eventName, { data: state.vehicleComponent, error: state.error});
+    } finally {
+      state.componentCode = null
+    }
   }
 
-  function getComponent() {
-    vehicleComponent = vehicle.vehicleComponents.find(
-      (vc) => vc.component.code.toLowerCase() === componentCode.toLowerCase()
+  function getComponent(code) {
+    return  vehicle.vehicleComponents.find(
+      (vc) => vc.component.code.toLowerCase() === code?.toLowerCase()
     );
-    dispatch(eventName, { data: vehicleComponent, error: null});
   }
 
   function reset() {
-    componentCode = null;
-    vehicleComponent = null;
-    dispatch(eventName, null);
+    state.componentCode = null;
+    state.vehicleComponent = null;
+    state.error = null
+    dispatch(eventName, state);
   }
 </script>
 
@@ -62,19 +73,25 @@
   <div class="form">
     <div class="title">Vehicle Component</div>
 
-    {#if !vehicleComponent}
+    {#if !state.vehicleComponent}
       <input
         type="text"
-        bind:value={componentCode}
-        on:keyup={debounce(getComponent, 500)} />
-    {:else}
+        bind:value={state.componentCode}
+        on:keyup={debounce(handleInput, 500)} />
+    {/if}
+    {#if state.vehicleComponent}
       <div class="detail">
-        <div>{vehicleComponent.component.code}</div>
-        <div>{vehicleComponent.component.name}</div>
+        <div>{state.vehicleComponent.component.code}</div>
+        <div>{state.vehicleComponent.component.name}</div>
       </div>
     {/if}
+    {#if state.error}
+    <div class="detail">
+      <div>{state.error}</div>
+    </div>
+  {/if}
   </div>
   <div class="reset">
-    {#if vehicleComponent}<button on:click={reset}> Reset </button>{/if}
+    {#if state.vehicleComponent}<button on:click={reset}> Reset </button>{/if}
   </div>
 </div>
