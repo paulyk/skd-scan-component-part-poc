@@ -3,6 +3,8 @@
   import { debounce } from "../util";
   import { createEventDispatcher } from "svelte";
 import type { VehicleComponent } from "../generated/graphql";
+import ErrorTimout from "../components/util/TimeoutError.svelte";
+import TimeoutError from "../components/util/TimeoutError.svelte";
 
   let dispatch = createEventDispatcher();
   let eventName = "part-numbers";
@@ -32,7 +34,7 @@ import type { VehicleComponent } from "../generated/graphql";
       let part_no: string= e.target.value;
 
       if (!part_no || part_no.length < 10) {
-        console.log("part no less thtn 10 characters", part_no);
+        state.error = "part number not valid"
         return
       }
 
@@ -111,6 +113,12 @@ import type { VehicleComponent } from "../generated/graphql";
       {#if state.data.scan_2}
         <div>scan 2: {state.data.scan_2}</div>
       {/if}
+      
+      {#if state.error} 
+        <TimeoutError delay={3000} errors={[state.error]} />
+      {/if}
+
+      
     </div>
   </div>
   <div class="reset">
