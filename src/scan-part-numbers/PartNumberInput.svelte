@@ -33,6 +33,8 @@ import TimeoutError from "../components/util/TimeoutError.svelte";
     try {
       let part_no: string= e.target.value;
 
+      state.error = null // clear any errors on input if any
+
       if (!part_no || part_no.length < 10) {
         state.error = "part number not valid"
         return
@@ -48,6 +50,7 @@ import TimeoutError from "../components/util/TimeoutError.svelte";
       }
       dispatch(eventName, state);
     } finally {
+      state = state
       textInput.value = "";
     }
   }
