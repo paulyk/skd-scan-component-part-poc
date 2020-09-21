@@ -59,7 +59,9 @@
       </div>
       <div class="components">
         <div class="flex">
-          {#each components as code}<span class="code">{code}</span>{/each}
+          {#each components as code}
+            <span class="code">{code}</span>
+          {/each}
         </div>
       </div>
     </div>
