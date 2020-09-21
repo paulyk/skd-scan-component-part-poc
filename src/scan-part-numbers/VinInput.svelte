@@ -86,6 +86,7 @@
       <div class="detail">
         <div>{state.data.vin}</div>
         <div>{state.data.model.name}</div>
+        <div>{state.data.lotNo} / {state.data.kitNo}</div>
       </div>
     {/if}
     {#if state.error}

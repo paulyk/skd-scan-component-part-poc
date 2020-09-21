@@ -1085,7 +1085,7 @@ export type VehiclesQuery = (
     { __typename?: 'VehicleConnection' }
     & { nodes?: Maybe<Array<Maybe<(
       { __typename?: 'Vehicle' }
-      & Pick<Vehicle, 'vin'>
+      & Pick<Vehicle, 'vin' | 'lotNo' | 'kitNo'>
       & { model?: Maybe<(
         { __typename?: 'VehicleModel' }
         & Pick<VehicleModel, 'code' | 'name'>
@@ -1110,7 +1110,7 @@ export type VehicleByVinQuery = (
   { __typename?: 'Query' }
   & { vehicleByVIN: (
     { __typename?: 'Vehicle' }
-    & Pick<Vehicle, 'id' | 'vin' | 'createdAt' | 'removedAt' | 'plannedBuildAt'>
+    & Pick<Vehicle, 'id' | 'vin' | 'lotNo' | 'kitNo' | 'createdAt' | 'removedAt' | 'plannedBuildAt'>
     & { model?: Maybe<(
       { __typename?: 'VehicleModel' }
       & Pick<VehicleModel, 'code' | 'name'>

@@ -5,6 +5,8 @@ query vehicles {
   vehicles (first: 30) {
     nodes {
       vin
+      lotNo
+      kitNo
       model {
         code
         name
@@ -26,6 +28,8 @@ query vehicleByVin($vin: String!){
   vehicleByVIN(vin: $vin){
     id
    	vin
+    lotNo
+    kitNo
     createdAt
     removedAt
     plannedBuildAt
