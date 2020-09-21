@@ -49,7 +49,7 @@
 </style>
 
 <Accordion>
-  <div slot="header">VIN & Component Codes</div>
+  <div slot="header">Select VIN and Component codes here</div>
   <div slot="body">
     <div class="cols">
       <div class="vin-list">

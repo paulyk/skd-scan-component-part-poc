@@ -60,8 +60,9 @@
 
 <style>
   .grid {
-    display: grid;
-    grid-gap: 0.5rem;
+    /* display: grid;
+    grid-gap: 0.5rem; */
+    background: #fff;
   }
 </style>
 

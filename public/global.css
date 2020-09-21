@@ -61,3 +61,15 @@ button:not(:disabled):active {
 button:focus {
 	border-color: #666;
 }
+
+
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 100px;
+}
+
+.two-col .reset {
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+}

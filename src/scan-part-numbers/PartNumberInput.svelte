@@ -65,16 +65,7 @@ import TimeoutError from "../components/util/TimeoutError.svelte";
 </script>
 
 <style>
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 60px;
-  }
 
-  .two-col .reset {
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-  }
 
   .form {
     padding: 0.5rem 1rem;

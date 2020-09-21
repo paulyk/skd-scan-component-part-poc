@@ -13,9 +13,7 @@
     background: #f2f2f2;
   }
 
-  h1 {
-    text-align: center;
-  }
+
 
   .wrap {
     width: 800px;
@@ -27,9 +25,9 @@
   }
 </style>
 
-<h1>Component Scan Demo {new Date().getMinutes()  }</h1>
 <div class="wrap">
   <VehicleInfo />
+  <div>Scan / Type / Copy Paste here</div>
   <ComponentScan />
 </div>
 <div class="spacer" />
